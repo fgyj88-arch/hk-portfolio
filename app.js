@@ -13,6 +13,22 @@ function updateNav(){
 }
 updateNav();
 
+function raiseCursorAboveDialog(){
+  const cursor=document.querySelector('.circle-cursor');
+  if(!cursor)return;
+  if(typeof cursor.showPopover!=='function'){
+    document.documentElement.classList.add('dialog-native-cursor');
+    return;
+  }
+  try{
+    if(cursor.matches(':popover-open'))cursor.hidePopover();
+    cursor.showPopover();
+  }catch{
+    cursor.removeAttribute('popover');
+    document.documentElement.classList.add('dialog-native-cursor');
+  }
+}
+
 // Keep document-level handlers alive when a new page body replaces the old one.
 document.addEventListener('click',event=>{
   const target=event.target;
@@ -21,7 +37,7 @@ document.addEventListener('click',event=>{
   if(openButton){
     const content=document.getElementById(openButton.dataset.open);
     const dialog=document.querySelector('dialog');
-    if(content&&dialog){dialog.querySelector('#dialog-content').innerHTML=content.innerHTML;dialog.showModal();}
+    if(content&&dialog){dialog.querySelector('#dialog-content').innerHTML=content.innerHTML;dialog.showModal();raiseCursorAboveDialog();}
     return;
   }
   if(target.closest('[data-close]')){document.querySelector('dialog')?.close();return;}
@@ -100,7 +116,9 @@ if(window.matchMedia('(hover: hover) and (pointer: fine) and (prefers-reduced-mo
   cursor.className='circle-cursor';
   cursor.innerHTML='<span class="circle-cursor-ring"></span>';
   cursor.setAttribute('aria-hidden','true');
+  if(typeof cursor.showPopover==='function')cursor.popover='manual';
   document.body.append(cursor);
+  if(cursor.popover==='manual')try{cursor.showPopover();}catch{cursor.removeAttribute('popover');}
   document.documentElement.classList.add('circle-cursor-ready');
   const position=event=>{
     if(event.pointerType!=='mouse')return false;

@@ -61,12 +61,15 @@
 /* Minimal circle cursor */
 @media(hover:hover) and (pointer:fine) and (prefers-reduced-motion:no-preference){
   html.circle-cursor-ready,html.circle-cursor-ready *{cursor:none!important}
-  .circle-cursor{position:fixed;left:0;top:0;width:24px;height:24px;z-index:9999;opacity:0;transform:translate(-50%,-50%);pointer-events:none;transition:opacity .12s ease;will-change:left,top}
+  .circle-cursor{position:fixed;left:0;top:0;right:auto;bottom:auto;width:24px;height:24px;margin:0;padding:0;border:0;overflow:visible;z-index:9999;opacity:0;transform:translate(-50%,-50%);pointer-events:none;transition:opacity .12s ease;will-change:left,top}
   .circle-cursor.is-visible{opacity:1}
+  .circle-cursor::backdrop{display:none}
   .circle-cursor-ring{display:block;width:24px;height:24px;border:2px solid #0b6b72;border-radius:50%;background:rgba(0,126,128,.12);box-shadow:0 0 0 2px rgba(255,255,255,.94);transform:scale(1)}
   .circle-cursor.is-clicking .circle-cursor-ring{animation:circle-cursor-click .32s ease-out}
   @keyframes circle-cursor-click{0%,100%{transform:scale(1)}45%{transform:scale(1.75)}}
 }
+html.dialog-native-cursor dialog[open],html.dialog-native-cursor dialog[open] *{cursor:auto!important}
+html.dialog-native-cursor dialog[open] button,html.dialog-native-cursor dialog[open] a{cursor:pointer!important}
 /* Reading music control */
 .music-toggle{position:fixed;right:20px;bottom:20px;z-index:80;min-height:44px;padding:10px 17px;border:1px solid #0f5963;border-radius:999px;background:#153e48;color:#fff;font-size:14px;font-weight:700;box-shadow:0 8px 24px #092e3733;transition:background-color .2s ease,transform .2s ease}
 .music-toggle:hover{background:#006e73;transform:translateY(-2px)}

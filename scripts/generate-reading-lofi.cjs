@@ -1,9 +1,9 @@
 const fs = require('node:fs');
 const path = require('node:path');
 
-// An original, deterministic 24-second lo-fi reading loop at 80 BPM.
+// An original, deterministic bright lo-fi chill-pop loop at 96 BPM.
 const rate = 32000;
-const bpm = 80;
+const bpm = 96;
 const beat = 60 / bpm;
 const seconds = 32 * beat;
 const samples = Math.round(rate * seconds);
@@ -17,12 +17,12 @@ const add = (start, length, sound) => {
   for (let i = first; i < last; i++) mix[i] += sound((i / rate) - start);
 };
 
-// Four warm chords, two bars each: Dm9 / G13 / Cmaj9 / Am9.
+// Four buoyant major-leaning chords, two bars each: Cmaj9 / G / Am7 / Fmaj9.
 const chords = [
-  [50, 53, 57, 60, 64],
-  [43, 53, 57, 59, 62],
   [48, 52, 55, 59, 62],
-  [45, 48, 52, 55, 59],
+  [43, 47, 50, 55, 59],
+  [45, 48, 52, 55, 60],
+  [41, 45, 48, 52, 55],
 ];
 chords.forEach((notes, chordIndex) => {
   const start = chordIndex * 8 * beat;
@@ -31,7 +31,7 @@ chords.forEach((notes, chordIndex) => {
     add(start, 8 * beat, t => {
       const envelope = Math.min(1, t / 0.9, (8 * beat - t) / 1.1);
       const tremolo = 0.95 + 0.05 * Math.sin(2 * Math.PI * 0.28 * t + voice);
-      return 0.022 * envelope * tremolo * (
+      return 0.02 * envelope * tremolo * (
         Math.sin(2 * Math.PI * f * t) +
         0.29 * Math.sin(2 * Math.PI * f * 1.005 * t) +
         0.08 * Math.sin(2 * Math.PI * f * 2 * t)
@@ -41,10 +41,10 @@ chords.forEach((notes, chordIndex) => {
 });
 
 const melody = [
-  [0, 69], [1.5, 72], [3, 76], [5.5, 72],
-  [8, 71], [9.5, 74], [11, 77], [13.5, 74],
-  [16, 67], [17.5, 71], [19, 76], [21.5, 71],
-  [24, 64], [25.5, 67], [27, 71], [29.5, 67],
+  [0, 76], [1, 79], [3, 81], [5.5, 79],
+  [8, 74], [9, 79], [11, 83], [13.5, 79],
+  [16, 76], [17, 81], [19, 84], [21.5, 81],
+  [24, 72], [25, 76], [27, 79], [29.5, 76],
 ];
 for (const [beatIndex, midi] of melody) {
   const f = hz(midi);
@@ -54,7 +54,7 @@ for (const [beatIndex, midi] of melody) {
       const tone = Math.sin(2 * Math.PI * f * t) +
         0.21 * Math.sin(2 * Math.PI * f * 2.003 * t) +
         0.07 * Math.sin(2 * Math.PI * f * 3.01 * t);
-      return 0.105 * level * envelope * tone;
+      return 0.11 * level * envelope * tone;
     });
   }
 }
@@ -69,6 +69,7 @@ for (let bar = 0; bar < 8; bar++) {
       return 0.08 * Math.exp(-18 * t) * Math.sin(phase);
     });
   }
+  add((bar * 4 + 2.75) * beat, 0.24, t => 0.048 * Math.exp(-20 * t) * Math.sin(2 * Math.PI * (64 - 32 * t) * t));
   for (const offset of [1, 3]) {
     const start = (bar * 4 + offset) * beat;
     let previous = 0;
@@ -86,7 +87,7 @@ for (let eighth = 0; eighth < 64; eighth++) {
     const noise = random();
     const high = noise - previous * 0.8;
     previous = noise;
-    return 0.004 * Math.exp(-65 * t) * high;
+    return 0.0055 * Math.exp(-65 * t) * high;
   });
 }
 

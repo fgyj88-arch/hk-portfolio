@@ -31,3 +31,30 @@ if(window.matchMedia('(hover: hover) and (pointer: fine) and (prefers-reduced-mo
   document.addEventListener('mouseleave',()=>cursor.classList.remove('is-visible'));
   window.addEventListener('blur',()=>cursor.classList.remove('is-visible'));
 }
+
+// Reading music starts only after a deliberate click; browsers block autoplay.
+const readingMusic=document.createElement('audio');
+readingMusic.src=new URL('assets/reading-lofi.wav',document.baseURI).href;
+readingMusic.loop=true;
+readingMusic.preload='none';
+readingMusic.volume=0.35;
+const musicToggle=document.createElement('button');
+musicToggle.type='button';
+musicToggle.className='music-toggle';
+musicToggle.setAttribute('aria-pressed','false');
+musicToggle.textContent='♪ 음악 켜기';
+document.body.append(readingMusic,musicToggle);
+const updateMusicButton=playing=>{
+  musicToggle.setAttribute('aria-pressed',String(playing));
+  musicToggle.textContent=playing?'♪ 음악 끄기':'♪ 음악 켜기';
+};
+musicToggle.addEventListener('click',async()=>{
+  if(!readingMusic.paused){readingMusic.pause();updateMusicButton(false);return;}
+  musicToggle.disabled=true;
+  try{await readingMusic.play();updateMusicButton(true);}
+  catch{musicToggle.textContent='음악을 재생할 수 없음';}
+  finally{musicToggle.disabled=false;}
+});
+document.addEventListener('visibilitychange',()=>{
+  if(document.hidden&&!readingMusic.paused){readingMusic.pause();updateMusicButton(false);}
+});

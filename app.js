@@ -7,3 +7,27 @@ document.querySelectorAll('[data-open]').forEach(b=>b.addEventListener('click',(
 document.querySelector('[data-close]').addEventListener('click',()=>dialog.close());
 dialog.addEventListener('click',e=>{if(e.target===dialog){const r=dialog.getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)dialog.close();}});
 document.querySelectorAll('[data-filter]').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('[data-filter]').forEach(x=>{x.classList.toggle('active',x===b);x.setAttribute('aria-pressed',String(x===b));});let count=0;document.querySelectorAll('[data-category]').forEach(x=>{x.hidden=b.dataset.filter!=='all'&&x.dataset.category!==b.dataset.filter;if(!x.hidden)count++;});const c=document.querySelector('#count');if(c)c.textContent=String(count).padStart(2,'0');}));
+
+// Use the custom pointer only when a mouse and animation are available.
+if(window.matchMedia('(hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference)').matches){
+  const cursor=document.createElement('div');
+  cursor.className='circle-cursor';
+  cursor.setAttribute('aria-hidden','true');
+  document.body.append(cursor);
+  document.documentElement.classList.add('circle-cursor-ready');
+  document.addEventListener('pointermove',event=>{
+    if(event.pointerType!=='mouse')return;
+    cursor.style.left=event.clientX+'px';
+    cursor.style.top=event.clientY+'px';
+    cursor.classList.add('is-visible');
+  });
+  document.addEventListener('pointerdown',event=>{
+    if(event.pointerType!=='mouse')return;
+    cursor.classList.remove('is-clicking');
+    void cursor.offsetWidth;
+    cursor.classList.add('is-clicking');
+  });
+  cursor.addEventListener('animationend',()=>cursor.classList.remove('is-clicking'));
+  document.addEventListener('mouseleave',()=>cursor.classList.remove('is-visible'));
+  window.addEventListener('blur',()=>cursor.classList.remove('is-visible'));
+}

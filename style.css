@@ -57,3 +57,12 @@
 .intro-youtube-button{display:inline-flex;align-items:center;justify-content:center;min-height:52px;padding:13px 24px;border-radius:8px;background:#d92323;color:#fff;font-size:15px;font-weight:700;line-height:1.5;text-align:center;transition:background-color .2s ease,transform .2s ease}
 .intro-youtube-button:hover{background:#b91c1c;transform:translateY(-2px)}
 .intro-youtube-button:focus-visible{outline:3px solid #14292c;outline-offset:4px}
+
+/* Minimal circle cursor */
+@media(hover:hover) and (pointer:fine) and (prefers-reduced-motion:no-preference){
+  html.circle-cursor-ready,html.circle-cursor-ready *{cursor:none!important}
+  .circle-cursor{position:fixed;left:0;top:0;width:23px;height:23px;border:1.5px solid #007e80;border-radius:50%;background:rgba(0,126,128,.08);pointer-events:none;z-index:9999;opacity:0;transform:translate(-50%,-50%) scale(1);will-change:left,top,transform;transition:opacity .16s ease}
+  .circle-cursor.is-visible{opacity:1}
+  .circle-cursor.is-clicking{animation:circle-cursor-click .32s ease-out}
+  @keyframes circle-cursor-click{0%,100%{transform:translate(-50%,-50%) scale(1)}45%{transform:translate(-50%,-50%) scale(1.85)}}
+}

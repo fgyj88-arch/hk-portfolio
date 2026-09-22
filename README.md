@@ -1,6 +1,6 @@
 # 한국경제 AI 교육 포트폴리오
 
-`article.html`, `image.html`, `video.html`, `final.html`은 각각 독립 페이지입니다. `index.html`을 열면 기사 페이지로 이동합니다.
+`introduce.html`, `article.html`, `image.html`, `video.html`, `final.html`은 각각 독립 페이지입니다. `index.html`을 열면 기사 페이지로 이동합니다.
 
 공통 디자인은 `style.css`, 메뉴와 필터·상세창 동작은 `app.js`에서 수정합니다. 각 HTML의 콘텐츠 및 template 안의 상세 내용을 실제 결과물로 교체할 수 있습니다.
 

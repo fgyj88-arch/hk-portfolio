@@ -1,5 +1,5 @@
 const page=document.body.dataset.page;
-const nav=[['article','기사'],['image','이미지'],['video','영상'],['final','Final project']];
+const nav=[['introduce','소개'],['article','기사'],['image','이미지'],['video','영상'],['final','Final project']];
 document.querySelector('#site-header').innerHTML='<div class="topline"><div class="wrap"><span>한국경제 AI 교육 · 학습과 실험의 기록</span><span>LEARN. CREATE. ARCHIVE.</span></div></div><header class="header"><div class="wrap"><a class="brand" href="article.html"><span class="brand-icon">Ai</span><span><strong>한경 AI 아카이브</strong><small>HANKYUNG AI PORTFOLIO</small></span></a><nav aria-label="주 메뉴">'+nav.map(([id,label])=>'<a href="'+id+'.html" '+(page===id?'class="active" aria-current="page"':'')+'>'+label+'</a>').join('')+'</nav><span class="owner">나의 크리에이티브 노트</span></div></header>';
 document.querySelector('#site-footer').innerHTML='<footer class="footer"><div class="wrap"><div><strong>한경 AI 아카이브</strong><p>한국경제 AI 교육에서 배우고, 만들고, 발견한 것들.</p><small>개인 학습 포트폴리오 · 교육기관 공식 사이트가 아닙니다.</small></div><div><p>© 2026 AI Portfolio. All rights reserved.</p><small>현재 콘텐츠는 구성 확인을 위한 예시입니다.<br>참고 사진: Unsplash · Minku Kang, Conny Schneider, Gaétan Meyer</small></div></div></footer>';
 const dialog=document.querySelector('dialog');
